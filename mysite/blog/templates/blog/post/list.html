@@ -1,0 +1,42 @@
+{% extends "blog/base.html" %}
+
+{% block title %}My Blog{% endblock %}
+
+{% block content %}
+  <h1>My Blog</h1>
+  {% for post in posts %}
+    <h2>
+      <a href="{{ post.get_absolute_url }}">
+        {{ post.title }}
+      </a>
+    </h2>
+    <p class="date">
+      Published {{ post.publish }} by {{ post.author }}
+    </p>
+    
+    <!-- Mostrar imagen si está disponible -->
+    {% if post.image %}
+      <div class="post-image">
+        <img src="{{ post.image.url }}" alt="Image for {{ post.title }}" style="max-width: 100%; height: auto;">
+      </div>
+    {% endif %}
+    
+    <!-- Mostrar video si está disponible -->
+    {% if post.video %}
+      <div class="post-video">
+        <video width="320" height="240" controls>
+          <source src="{{ post.video.url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    {% endif %}
+    
+    <!-- Mostrar el cuerpo de la publicación -->
+    <div class="post-body">
+      {{ post.body|truncatewords:30|linebreaks }}
+    </div>
+
+  {% endfor %}
+  
+  {% include "pagination.html" with page=page_obj %}
+{% endblock %}

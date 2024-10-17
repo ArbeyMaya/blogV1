@@ -1,0 +1,54 @@
+{% extends "blog/base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+  <h1>{{ post.title }}</h1>
+  <p class="date">
+    Published {{ post.publish }} by {{ post.author }}
+  </p>
+  {{ post.body|linebreaks }}
+
+  <!-- Mostrar la imagen si está disponible -->
+  {% if post.image %}
+    <div class="post-image">
+      <img src="{{ post.image.url }}" alt="Image for {{ post.title }}" style="max-width: 100%; height: auto;">
+    </div>
+  {% endif %}
+
+  <!-- Mostrar el video solo si está disponible -->
+  {% if post.video %}
+    <div class="post-video">
+      <video width="640" height="360" controls>
+        <source src="{{ post.video.url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  {% endif %}
+
+  <p>
+    <a href="{% url 'blog:post_share' post.id %}">
+      Share this post
+    </a>
+  </p>
+
+  {% with comments.count as total_comments %}
+    <h2>{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
+  {% endwith %}
+
+  {% for comment in comments %}
+    <div class="comment">
+      <p class="info">
+        Comment {{ forloop.counter }} by {{ comment.name }}
+        {{ comment.created }}
+      </p>
+      {{ comment.body|linebreaks }}
+    </div>
+  {% empty %}
+    <p>There are no comments yet.</p>
+  {% endfor %}
+
+  <!-- Formulario de comentarios -->
+  {% include "blog/post/includes/comment_form.html" %}
+  
+{% endblock %}
