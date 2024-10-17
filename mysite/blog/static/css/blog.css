@@ -97,7 +97,7 @@ input[type=submit] {
 }
 
 .post-image {
-    max-width: 100%;    /* Asegura que la imagen no sea más ancha que su contenedor */
+    max-width: 10rem;    /* Asegura que la imagen no sea más ancha que su contenedor */
     height: auto;       /* Mantiene las proporciones de la imagen */
     display: block;     /* Elimina los espacios en blanco alrededor de la imagen */
     margin: 0 auto;     /* Centra la imagen horizontalmente */

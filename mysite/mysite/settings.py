@@ -139,3 +139,4 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
