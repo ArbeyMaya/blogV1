@@ -11,11 +11,15 @@
   {% endif %}
 
   {% if post.video %}
-    <video class="w-100 mb-3" controls>
+  <div class="d-flex justify-content-center">
+    <video class="custom-video mb-3" controls>
       <source src="{{ post.video.url }}" type="video/mp4">
       Tu navegador no soporta el video.
     </video>
-  {% endif %}
+  </div>
+{% endif %}
+
+
 
   <div class="post-content mb-4">
     {{ post.body|linebreaks }}

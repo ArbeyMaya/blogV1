@@ -12,7 +12,15 @@
             <!-- Imagen del post -->
             {% if post.image %}
               <img src="{{ post.image.url }}" class="card-img-top" alt="Image for {{ post.title }}">
-            {% endif %}
+              {% elif post.video %}
+              <!-- Miniatura del video con tamaño reducido -->
+              <div class="d-flex justify-content-center">
+                <video class="card-img-top video-thumbnail" controls style="width: 11rem;">
+                  <source src="{{ post.video.url }}" type="video/mp4">
+                  Tu navegador no soporta el video.
+                </video>
+              </div>
+            {% endif %}            
             <div class="card-body">
               <h5 class="card-title">{{ post.title }}</h5>
               <p class="card-text">
