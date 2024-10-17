@@ -3,52 +3,40 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-  <h1>{{ post.title }}</h1>
-  <p class="date">
-    Publicado {{ post.publish }} por {{ post.author }}
-  </p>
-  {{ post.body|linebreaks }}
+  <h1 class="mb-3">{{ post.title }}</h1>
+  <p class="text-muted">Publicado {{ post.publish }} por {{ post.author }}</p>
 
-  <!-- Mostrar la imagen si está disponible -->
   {% if post.image %}
-    <div class="post-image">
-      <img src="{{ post.image.url }}" alt="Image for {{ post.title }}" style="max-width: 100%; height: auto;">
-    </div>
+    <img src="{{ post.image.url }}" class="img-fluid mb-3" alt="Imagen de {{ post.title }}">
   {% endif %}
 
-  <!-- Mostrar el video solo si está disponible -->
   {% if post.video %}
-    <div class="post-video">
-      <video width="640" height="360" controls>
-        <source src="{{ post.video.url }}" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
+    <video class="w-100 mb-3" controls>
+      <source src="{{ post.video.url }}" type="video/mp4">
+      Tu navegador no soporta el video.
+    </video>
   {% endif %}
 
-  <p>
-    <a href="{% url 'blog:post_share' post.id %}">
-      Compartir
-    </a>
-  </p>
+  <div class="post-content mb-4">
+    {{ post.body|linebreaks }}
+  </div>
+
+  <a class="btn btn-primary" href="{% url 'blog:post_share' post.id %}">Compartir</a>
 
   {% with comments.count as total_comments %}
-    <h2>{{ total_comments }} comentarios{{ total_comments|pluralize }}</h2>
+    <h2 class="mt-5">{{ total_comments }} comentario(s)</h2>
   {% endwith %}
 
-  {% for comment in comments %}
-    <div class="comment">
-      <p class="info">
-        Comentado {{ forloop.counter }} por {{ comment.name }}
-        {{ comment.created }}
-      </p>
-      {{ comment.body|linebreaks }}
-    </div>
-  {% empty %}
-    <p>Aún no hay comentarios.</p>
-  {% endfor %}
+  <div class="comments">
+    {% for comment in comments %}
+      <div class="comment border p-3 mb-3">
+        <p class="mb-1"><strong>{{ comment.name }}</strong> comentó el {{ comment.created }}</p>
+        <p>{{ comment.body|linebreaks }}</p>
+      </div>
+    {% empty %}
+      <p>No hay comentarios aún.</p>
+    {% endfor %}
+  </div>
 
-  <!-- Formulario de comentarios -->
   {% include "blog/post/includes/comment_form.html" %}
-  
 {% endblock %}
